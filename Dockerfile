@@ -1,4 +1,10 @@
-FROM openjdk:17
-WORKDIR /app
-COPY target/RezeptBuch.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+# Build-Stage
+FROM maven:3.8.2-jdk-11 AS build
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Package-Stage
+FROM openjdk:11-jdk-slim
+COPY --from=build /target/RezeptBuch-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8081
+ENTRYPOINT ["java","-jar","app.jar"]
