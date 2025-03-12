@@ -15,8 +15,13 @@ public class RezeptController {
     // Zeigt die Liste der Rezepte an
     @GetMapping
     public String getRezepte(Model model) {
-        model.addAttribute("rezepte", service.findAll());
-        return "rezepte"; // Rendert die View "rezepte.html"
+        try {
+            model.addAttribute("rezepte", service.findAll());
+            return "rezepte"; // Rendert die View "rezepte.html"
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error"; // Rendert eine Fehlerseite, falls ein Problem auftritt
+        }
     }
 
     // Fügt ein neues Rezept hinzu
