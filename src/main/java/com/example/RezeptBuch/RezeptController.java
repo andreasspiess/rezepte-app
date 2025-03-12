@@ -6,31 +6,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/") // Basis-URL für den Controller geändert auf "/"
+@RequestMapping("/")
 public class RezeptController {
 
     @Autowired
     private RezeptService service;
 
-    // Zeigt die Liste der Rezepte an
-    @GetMapping("rezepte")
+    @GetMapping
     public String getRezepte(Model model) {
         model.addAttribute("rezepte", service.findAll());
         return "rezepte"; // Rendert die View "rezepte.html"
     }
 
-    // Fügt ein neues Rezept hinzu
-    @PostMapping("rezepte/neu")
+    @PostMapping("/neu")
     public String addRezept(@ModelAttribute Rezept rezept) {
         service.save(rezept);
-        return "redirect:/rezepte"; // Leitet zurück zur Liste der Rezepte
+        return "redirect:/";
     }
 
-    // Löscht ein Rezept basierend auf der ID
-    @PostMapping("rezepte/loeschen")
+    @PostMapping("/loeschen")
     public String deleteRezept(@RequestParam("id") Long id) {
         service.deleteById(id);
-        return "redirect:/rezepte"; // Leitet zurück zur Liste der Rezepte
+        return "redirect:/";
     }
 }
 
